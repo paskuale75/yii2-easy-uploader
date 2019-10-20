@@ -21,7 +21,7 @@ class Uploader extends Component
     /* Strings */
     public $baseFrontendUrl = "";
     public $baseBackendUrl = "";
-    private $_baseUrl;
+    private $_baseUrl = 'frontend';
 
     /* Booleans */
     public $rename = false;
@@ -29,16 +29,8 @@ class Uploader extends Component
 
     /* arrays */
     public $folders = [];
+    
 
-    public function __construct($base = "frontend")
-    {
-        $this->_baseUrl = $base;
-    }
-
-    public function init(){
-        parent::init();
-        $this->_baseUrl = 'frontend';
-    }
 
     public function getBaseUrl(){
         if($this->_baseUrl == 'frontend'){
