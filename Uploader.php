@@ -140,7 +140,7 @@ class Uploader extends Component
     private function isFolderExist($folder)
     {
         if (!file_exists($folder)) {
-            mkdir($folder, 0664, true);
+            mkdir($folder, 0775, true);
         }
     }
 
