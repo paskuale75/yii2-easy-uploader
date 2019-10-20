@@ -58,6 +58,8 @@ class Uploader extends Component
      */
     public function upload($image, $folder)
     {
+        $this->baseUrl = $this->getBaseUrl();
+        
         if (!$image) {
             return false;
         }
