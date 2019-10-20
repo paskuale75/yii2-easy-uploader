@@ -42,9 +42,9 @@ class Uploader extends Component
 
     public function getBaseUrl(){
         if($this->_baseUrl == 'frontend'){
-            $this->_baseUrl = Yii::getAlias('@frontend').'/web/images/';
+            $this->_baseUrl = Yii::getAlias('@frontend').'/web/images';
         }else{
-            $this->_baseUrl = Yii::getAlias('@backend').'/web/images/';
+            $this->_baseUrl = Yii::getAlias('@backend').'/web/images';
         }
         return $this->_baseUrl;
     }
