@@ -57,9 +57,8 @@ class Uploader extends Component
      * @throws
      */
     public function upload($image, $folder)
-    {
-        $this->baseUrl = $this->getBaseUrl();
-        
+    {        
+
         if (!$image) {
             return false;
         }
@@ -71,15 +70,15 @@ class Uploader extends Component
             $image->name = Yii::$app->security->generateRandomString(Yii::$app->uploaders->random) . ".{$ext}";
         }
 
-        $imageLocation = $this->baseUrl . "/" . $folder . "/" . $image->name;
+        $imageLocation = $this->_baseUrl . "/" . $folder . "/" . $image->name;
         
         $image->saveAs($imageLocation);
 
         foreach (Yii::$app->uploaders->folders as $f) {
             // Check if there are new folder in array
-            $this->isFolderExist($this->baseUrl . "/" . $folder . "/" . $f['name'] . "/");
+            $this->isFolderExist($this->_baseUrl . "/" . $folder . "/" . $f['name'] . "/");
 
-            $this->doResize($imageLocation, $this->baseUrl . "/" . $folder . "/" . $f['name'] . "/" . $image->name,
+            $this->doResize($imageLocation, $this->_baseUrl . "/" . $folder . "/" . $f['name'] . "/" . $image->name,
                 [
                     'quality' => $f["quality"],
                     'width' => $f["width"],
@@ -87,7 +86,7 @@ class Uploader extends Component
         }
 
         if (Yii::$app->uploaders->remove) {
-            unlink($this->baseUrl . "/" . $folder . "/" . $image->name);
+            unlink($this->_baseUrl . "/" . $folder . "/" . $image->name);
         }
 
         return $image->name;
