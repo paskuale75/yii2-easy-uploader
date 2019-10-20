@@ -21,7 +21,7 @@ class Uploader extends Component
     /* Strings */
     public $baseFrontendUrl = "";
     public $baseBackendUrl = "";
-    private $baseUrl;
+    private $_baseUrl;
 
     /* Booleans */
     public $rename = false;
@@ -32,21 +32,21 @@ class Uploader extends Component
 
     public function __construct($base = "frontend")
     {
-        $this->baseUrl = $base;
+        $this->_baseUrl = $base;
     }
 
     public function init(){
         parent::init();
-        $this->baseUrl = 'frontend';
+        $this->_baseUrl = 'frontend';
     }
 
     public function getBaseUrl(){
-        if($this->baseUrl == 'frontend'){
-            $this->baseUrl = Yii::getAlias('@frontend').'/web/images/';
+        if($this->_baseUrl == 'frontend'){
+            $this->_baseUrl = Yii::getAlias('@frontend').'/web/images/';
         }else{
-            $this->baseUrl = Yii::getAlias('@backend').'/web/images/';
+            $this->_baseUrl = Yii::getAlias('@backend').'/web/images/';
         }
-        return $this->baseUrl;
+        return $this->_baseUrl;
     }
 
     /**
@@ -111,10 +111,10 @@ class Uploader extends Component
      */
     private function folders($folder)
     {
-        $_base = $this->getBaseUrl();
-        if (!file_exists($_base . "/" . $folder))
+        
+        if (!file_exists($this->baseUrl . "/" . $folder))
         {
-            $path = $_base . "/" . $folder;
+            $path = $this->baseUrl . "/" . $folder;
             if (FileHelper::createDirectory($path, $mode = 0775, $recursive = true))
             {
                 //$file->saveAs(Yii::getAlias('@frontend') . '/web/uploads/img/' . $date . $file);
@@ -122,7 +122,7 @@ class Uploader extends Component
                 //mkdir($this->baseUrl . "/" . $folder, 0664, true);
                 foreach (Yii::$app->uploaders->folders as $f)
                 {
-                    $path = $_base . "/" . $folder . "/". $f['name'];
+                    $path = $this->baseUrl . "/" . $folder . "/". $f['name'];
                     FileHelper::createDirectory($path, $mode = 0775, $recursive = true);
                 }
             }
