@@ -69,7 +69,9 @@ class Uploader extends Component
             $image->name = Yii::$app->security->generateRandomString(Yii::$app->uploaders->random) . ".{$ext}";
         }
 
-        $image->saveAs($imageLocation = $this->baseUrl . "/" . $folder . "/" . $image->name);
+        $imageLocation = $this->baseUrl . "/" . $folder . "/" . $image->name;
+        
+        $image->saveAs($imageLocation);
 
         foreach (Yii::$app->uploaders->folders as $f) {
             // Check if there are new folder in array
