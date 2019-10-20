@@ -40,6 +40,16 @@ class Uploader extends Component
         $this->baseUrl = 'frontend';
     }
 
+    public function getBaseUrl(){
+        if($this->baseUrl == 'frontend'){
+            $this->baseUrl = Yii::$app->uploaders->baseFrontendUrl;
+        }else{
+            $this->baseUrl = Yii::$app->uploaders->baseBackendUrl;
+        }
+
+        return $this->baseUrl;
+    }
+
     /**
      * @param $image
      * @param $folder
@@ -52,12 +62,7 @@ class Uploader extends Component
         if (!$image) {
             return false;
         }
-
-        if($this->baseUrl == 'frontend'){
-            $this->baseUrl = Yii::$app->uploaders->baseFrontendUrl;
-        }else{
-            $this->baseUrl = Yii::$app->uploaders->baseBackendUrl;
-        } 
+        
         $this->folders($folder);
 
         if (Yii::$app->uploaders->rename) {
