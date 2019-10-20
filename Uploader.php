@@ -30,6 +30,14 @@ class Uploader extends Component
     /* arrays */
     public $folders = [];
     
+    /**
+     * Initializes the application component.
+     */
+    public function init()
+    {
+        parent::init();
+        $this->_baseUrl = 'frontend';
+    }
 
 
     public function getBaseUrl(){
