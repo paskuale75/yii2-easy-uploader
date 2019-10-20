@@ -10,8 +10,10 @@ namespace gomonkey\uploader;
 
 use yii;
 use yii\imagine\Image;
+use yii\base\Component;
+use yii\helpers\FileHelper;
 
-class Uploader
+class Uploader extends Component
 {
     /* integers */
     public $random = 10;
@@ -33,6 +35,11 @@ class Uploader
         $this->baseUrl = $base;
     }
 
+    public function init(){
+        parent::init();
+        $this->baseUrl = 'frontend';
+    }
+
     /**
      * @param $image
      * @param $folder
@@ -46,7 +53,7 @@ class Uploader
             return false;
         }
 
-        $this->baseUrl == "frontend" ? Yii::$app->uploaders->baseFrontendUrl : Yii::$app->uploaders->baseBackendUrl;
+        $this->baseUrl == 'frontend' ? Yii::$app->uploaders->baseFrontendUrl : Yii::$app->uploaders->baseBackendUrl;
         $this->folders($folder);
 
         if (Yii::$app->uploaders->rename) {
@@ -96,10 +103,19 @@ class Uploader
      */
     private function folders($folder)
     {
-        if (!file_exists($this->baseUrl . "/" . $folder)) {
-            mkdir($this->baseUrl . "/" . $folder, 0664, true);
-            foreach (Yii::$app->uploaders->folders as $f) {
-                mkdir($this->baseUrl . "/" . $folder . "/" . $f['name'], 0664, true);
+        if (!file_exists($this->baseUrl . "/" . $folder))
+        {
+            $path = $this->baseUrl . "/" . $folder;
+            if (FileHelper::createDirectory($path, $mode = 0775, $recursive = true))
+            {
+                //$file->saveAs(Yii::getAlias('@frontend') . '/web/uploads/img/' . $date . $file);
+                //}
+                //mkdir($this->baseUrl . "/" . $folder, 0664, true);
+                foreach (Yii::$app->uploaders->folders as $f)
+                {
+                    $path = $this->baseUrl . "/" . $folder . "/". $f['name'];
+                    FileHelper::createDirectory($path, $mode = 0775, $recursive = true);
+                }
             }
         }
     }
