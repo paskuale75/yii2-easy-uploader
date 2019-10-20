@@ -42,11 +42,10 @@ class Uploader extends Component
 
     public function getBaseUrl(){
         if($this->baseUrl == 'frontend'){
-            $this->baseUrl = Yii::$app->uploaders->baseFrontendUrl;
+            $this->baseUrl = Yii::getAlias('@frontend').'/web/images/';
         }else{
-            $this->baseUrl = Yii::$app->uploaders->baseBackendUrl;
+            $this->baseUrl = Yii::getAlias('@backend').'/web/images/';
         }
-
         return $this->baseUrl;
     }
 
@@ -112,9 +111,10 @@ class Uploader extends Component
      */
     private function folders($folder)
     {
-        if (!file_exists($this->baseUrl . "/" . $folder))
+        $_base = $this->getBaseUrl();
+        if (!file_exists($_base . "/" . $folder))
         {
-            $path = $this->baseUrl . "/" . $folder;
+            $path = $_base . "/" . $folder;
             if (FileHelper::createDirectory($path, $mode = 0775, $recursive = true))
             {
                 //$file->saveAs(Yii::getAlias('@frontend') . '/web/uploads/img/' . $date . $file);
@@ -122,7 +122,7 @@ class Uploader extends Component
                 //mkdir($this->baseUrl . "/" . $folder, 0664, true);
                 foreach (Yii::$app->uploaders->folders as $f)
                 {
-                    $path = $this->baseUrl . "/" . $folder . "/". $f['name'];
+                    $path = $_base . "/" . $folder . "/". $f['name'];
                     FileHelper::createDirectory($path, $mode = 0775, $recursive = true);
                 }
             }
