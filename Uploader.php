@@ -53,7 +53,11 @@ class Uploader extends Component
             return false;
         }
 
-        $this->baseUrl == 'frontend' ? Yii::$app->uploaders->baseFrontendUrl : Yii::$app->uploaders->baseBackendUrl;
+        if($this->baseUrl == 'frontend'){
+            $this->baseUrl = Yii::$app->uploaders->baseFrontendUrl;
+        }else{
+            $this->baseUrl = Yii::$app->uploaders->baseBackendUrl;
+        } 
         $this->folders($folder);
 
         if (Yii::$app->uploaders->rename) {
